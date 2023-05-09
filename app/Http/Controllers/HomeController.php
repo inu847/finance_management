@@ -24,9 +24,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $data['saldo'] = Transaksi::where('status', 1)->sum('nominal');
         $data['pengeluaran'] = Transaksi::where('category_id', 1)->where('status', 1)->sum('nominal');
         $data['pemasukan'] = Transaksi::where('category_id', 2)->where('status', 1)->sum('nominal');
+        $data['saldo'] = $data['pemasukan'] - $data['pengeluaran'];
 
         return view('dashboard', ['data' => $data]);
     }

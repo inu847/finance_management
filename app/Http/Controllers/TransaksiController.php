@@ -29,9 +29,9 @@ class TransaksiController extends Controller
         }
 
         $data = Transaksi::whereBetween('created_at', [$start_date, $end_date])->orderBy('id', 'desc')->get();
-        $report['saldo'] = Transaksi::whereBetween('created_at', [$start_date, $end_date])->where('status', 1)->sum('nominal');
         $report['pengeluaran'] = Transaksi::whereBetween('created_at', [$start_date, $end_date])->where('category_id', 1)->where('status', 1)->sum('nominal');
         $report['pemasukan'] = Transaksi::whereBetween('created_at', [$start_date, $end_date])->where('category_id', 2)->where('status', 1)->sum('nominal');
+        $report['saldo'] = $report['pemasukan'] - $report['pengeluaran'];
         $report['start_date'] = Carbon::parse($start_date)->format('Y-m-d');
         $report['end_date'] = Carbon::parse($end_date)->format('Y-m-d');
 
